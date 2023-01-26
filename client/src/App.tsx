@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isTemplateExpression } from "typescript";
 
 function App() {
@@ -6,6 +6,14 @@ function App() {
     {name: 'prod1', price: 100.00},
     {name: 'prod2', price: 200.00}]
   );
+
+  // add a side effect to a component when it loads
+  // fetching the products from the db [PROMISE]
+  useEffect(() => {
+    fetch('http://localhost:5000/api/products')
+      .then(res => res.json())
+      .then(data => setProducts(data));
+  }, []);
 
   function addProduct() {
     //setProducts([...products, {name: 'prod3', price: 300.00}])

@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { isTemplateExpression } from "typescript";
+import { Product } from "../models/product";
 
 function App() {
-  const [products, setProducts] = useState([
-    {name: 'prod1', price: 100.00},
-    {name: 'prod2', price: 200.00}]
-  );
+  const [products, setProducts] = useState<Product[]>([]);
 
   // add a side effect to a component when it loads
   // fetching the products from the db [PROMISE]
@@ -18,7 +16,14 @@ function App() {
   function addProduct() {
     //setProducts([...products, {name: 'prod3', price: 300.00}])
     setProducts(prevState => [...prevState,
-      {name: 'prod' + (prevState.length + 1), price: (prevState.length * 100) + 100}])
+      {
+        id: prevState.length + 101,
+        name: 'prod' + (prevState.length + 1), 
+        price: (prevState.length * 100) + 100,
+        brand: 'some brand',
+        description: 'some desc',
+        pictureUrl: 'http://picsum.photos/200'
+      }])
   }
 
   return (
@@ -26,8 +31,8 @@ function App() {
       <h1>Re-Store</h1>
       <ul>
         <li>Products count: {products.length}</li>
-        {products.map((product, index) => (
-          <li key={index}>Name: {product.name} - Price: {product.price}</li>
+        {products.map(product => (
+          <li key={product.id}>Name: {product.name} - Price: {product.price}</li>
         ))}
       </ul>
       <button onClick={addProduct}>Add Product</button>
